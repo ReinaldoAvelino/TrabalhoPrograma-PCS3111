@@ -100,8 +100,9 @@ int main() {
                 cout << "Digite o numero ou 0 para cancelar: ";
                 cin >> numero;
                 if (numero != 0) {
-                    cout << PoliBook->getPerfis()[numero-1]->getNome << endl;
+                    cout << PoliBook->getPerfis()[numero-1]->getNome();
                 }
+                cout << endl;
             }
             break;
 
