@@ -2,7 +2,7 @@
 #include <string>
 
 PessoaNaoVerificada::PessoaNaoVerificada(string nome): Perfil(nome) {
-    this->nome = nome;
+    //ctor
 }
 
 PessoaNaoVerificada::~PessoaNaoVerificada() {
