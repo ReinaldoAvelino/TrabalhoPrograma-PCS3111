@@ -9,11 +9,6 @@
 
 using namespace std;
 
-bool EhVerificado(Perfil* p) {
-    if( dynamic_cast<PessoaVerificada*>(p) != NULL ) return true;
-    return false;
-}
-
 void listarPerfis(RedeSocial* R) {
     for(int i = 0; i < R->getQuantidadeDePerfis(); i++) {
         cout << i+1 << ") " << R->getPerfis()[i]->getNome();
@@ -80,9 +75,8 @@ int main() {
                 cout << "Digite o numero ou 0 para cancelar: ";
                 cin >> numero;
                 if (numero != 0) {
-                    if ( EhVerificado( PoliBook->getPerfis()[numero-1] ) ) {
-
-                        PoliBook->adicionar( new Pagina(nome, dynamic_cast<PessoaVerificada*>(PoliBook->getPerfis()[numero-1]) ) );
+                    if ( PerfilVerificado* pv = dynamic_cast<PerfilVerificado*>(PoliBook->getPerfis()[numero-1]) ) {
+                        PoliBook->adicionar( new Pagina(nome, pv) );
                     }
                     else {
                         cout << "Somente pessoas verificadas podem ser proprietarias" << endl;
@@ -100,7 +94,20 @@ int main() {
                 cout << "Digite o numero ou 0 para cancelar: ";
                 cin >> numero;
                 if (numero != 0) {
-                    cout << PoliBook->getPerfis()[numero-1]->getNome();
+                    Perfil* p = PoliBook->getPerfis()[numero-1];
+                    cout << p->getNome();
+                    if ( PerfilVerificado* pv = dynamic_cast<PerfilVerificado*>(p) ) {
+                        cout << " - " << pv->getEmail();
+                    }
+                    cout << endl;
+                    if ( Pagina* pag = dynamic_cast<Pagina*>(p) ) {
+                        cout << "Proprietario " << pag->getProprietario()->getNome(); << endl;
+                    }
+                    cout << "Contatos: " << p->getQuantidadeDeContatos() << endl;
+                    cout << "- - -" << endl;             
+                    cout << "
+                    
+                    cout << "Contatos: " << p->getQuantidadeDeContatos() << endl;E
                 }
                 cout << endl;
             }
