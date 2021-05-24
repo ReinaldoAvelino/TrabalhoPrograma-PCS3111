@@ -2,12 +2,10 @@
 
 PessoaVerificada::PessoaVerificada(string nome, string email) : Perfil(nome)
 {
-    this->nome = nome;
     this->email = email;
 }
 
 PessoaVerificada::PessoaVerificada(string nome): Perfil(nome) {
-    this->nome = nome;
     this->email = "email.padrao@usp.br";
 }
 
