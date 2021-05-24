@@ -105,9 +105,9 @@ int main() {
                     }
                     cout << "Contatos: " << p->getQuantidadeDeContatos() << endl;
                     cout << "- - -" << endl;             
-                    cout << "
+                    cout << "Escolha uma opcao:" << endl;
                     
-                    cout << "Contatos: " << p->getQuantidadeDeContatos() << endl;E
+                    
                 }
                 cout << endl;
             }
