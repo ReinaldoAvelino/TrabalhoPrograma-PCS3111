@@ -69,6 +69,7 @@ int main() {
             break;
 
             case 2:
+            {
                 string nome;
                 cout << "Informe os dados da pagina" << endl;
                 cout << "Nome: ";
@@ -88,14 +89,20 @@ int main() {
                     }
                 }
                 cout << endl;
+            }
             break;
 
             case 3:
+            {
                 cout << "Escolha um perfil:" << endl;
                 listarPerfis(PoliBook);
                 int numero;
                 cout << "Digite o numero ou 0 para cancelar: ";
                 cin >> numero;
+                if (numero != 0) {
+                    cout << PoliBook->getPerfis()[numero-1]->getNome << endl;
+                }
+            }
             break;
 
             case 0:
