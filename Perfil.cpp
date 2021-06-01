@@ -88,3 +88,23 @@ void Perfil::imprimir() {
         }
     }
 }
+
+Postagem** Perfil::getPostagensDosContatos(int data, int& quantidade)
+{
+    Postagem** postagensDosContatos = new Postagem*[MAXIMO_POSTAGENS*(this->quantidadeDeContatos)];
+    quantidade = 0;
+    int dataRecente;
+    for (int i = 0; i < this->quantidadeDeContatos; i++) {
+        for (int j = 0; j < this->contatos[i]->getQuantidadeDePostagens(); j++) {
+            dataRecente = data;
+            while (dataRecente > 0 && dataRecente >= data-3) {
+                if (this->contatos[i]->postagens[j]->getData() == dataRecente) {
+                    postagensDosContatos[quantidade] = this->contatos[i]->postagens[j];
+                    quantidade++;
+                }
+                dataRecente--;
+            }
+        }
+    }
+    return postagensDosContatos;
+}
