@@ -1,3 +1,3 @@
 # SocialNetwork
-Creating a new social network in C++
-It has been desenvolved by Reinaldo Avelino during the course of Object Oriented Programming (PCS3111) at USP.
+Uma nova rede social criada em C++.
+Foi desenvolvida durante o curso PCS3111 (Laboratório de Programação Orientada a Objetos para Engenharia Elétrica) na Poli-USP.
