@@ -1,11 +1,15 @@
 #include "PessoaVerificada.h"
 
-PessoaVerificada::PessoaVerificada(string nome, string email) : Perfil(nome)
+#include <iostream>
+#include <string>
+using namespace std;
+
+PessoaVerificada::PessoaVerificada(string nome, string email) : Pessoa(nome)
 {
     this->email = email;
 }
 
-PessoaVerificada::PessoaVerificada(string nome): Perfil(nome) {
+PessoaVerificada::PessoaVerificada(string nome): Pessoa(nome) {
     this->email = "email.padrao@usp.br";
 }
 
@@ -21,5 +25,5 @@ string PessoaVerificada::getEmail()
 
 void PessoaVerificada::imprimir() { // Redefinicao por refinamento
     cout << this->email << endl;
-    Perfil::imprimir();
+    Pessoa::imprimir();
 }

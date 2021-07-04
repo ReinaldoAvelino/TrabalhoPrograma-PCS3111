@@ -1,35 +1,46 @@
 #ifndef PERFIL_H
 #define PERFIL_H
 
-#include <string>
+#include "Postagem.h"
 
-#define MAXIMO_POSTAGENS 20
-#define MAXIMO_CONTATOS 20
+#include <string>
+#include <list>
+#include <vector>
 
 using namespace std;
 
-#include "Postagem.h"
-
 class Postagem;
 
-class Perfil {
+class Perfil { // Classe abstrata
 public:
     Perfil(string nome);
+    Perfil(string nome, int id); // Persistencia
 	virtual ~Perfil();
-    virtual bool adicionarContato(Perfil* contato);
-	virtual bool adicionarPostagem(Postagem* p);
-	virtual void imprimir();
+
 	string getNome();
-	virtual int getQuantidadeDeContatos();
-	virtual int getQuantidadeDePostagens();
-	virtual Perfil** getContatos();
-	virtual Postagem** getPostagens();
+
+    virtual void adicionar(Perfil* contato);
+	virtual void adicionar(Postagem* p);
+
+	virtual list<Postagem*>* getPostagens();
+    virtual list<Postagem*>* getPostagensDosContatos(int data);
+    virtual list<Postagem*>* getPostagensDosContatos();
+    virtual vector<Perfil*>* getContatos();
+
+    virtual void imprimir() = 0; // Metodo abstrato
+
+    int getId();
+    static int getUltimoId();
+    static void setUltimoId(int ultimoId); // Persistencia
+
 protected:
 	string nome;
-	Perfil** contatos;
+	vector<Perfil*>* contatos;
 	int quantidadeDeContatos = 0;
-	Postagem** postagens;
+	list<Postagem*>* postagens;
 	int quantidadeDePostagens = 0;
+	int id = 0;
+	static int ultimoId;
 };
 
 #endif // PERFIL_H

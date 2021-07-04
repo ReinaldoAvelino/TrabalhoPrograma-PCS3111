@@ -2,6 +2,13 @@
 #define REDESOCIAL_H
 
 #include "Perfil.h"
+#include "Pagina.h"
+#include "PessoaVerificada.h"
+#include "Postagem.h"
+#include "Story.h"
+#include "Pessoa.h"
+#include "PerfilInexistente.h"
+#include "PersistenciaDaRede.h"
 
 class Perfil;
 
@@ -9,11 +16,12 @@ class RedeSocial {
 public:
     RedeSocial ();
     virtual ~RedeSocial();
-    Perfil** getPerfis();
-    int getQuantidadeDePerfis();
-    bool adicionar(Perfil* perfil);
-    void imprimir();
-    void imprimirEstatisticas();
+    virtual Perfil** getPerfis();
+    virtual int getQuantidadeDePerfis();
+    virtual bool adicionar(Perfil* perfil);
+    virtual void imprimir();
+    virtual void imprimirEstatisticas();
+    Perfil* getPerfil(int id);
 
 private:
     Perfil** perfis;

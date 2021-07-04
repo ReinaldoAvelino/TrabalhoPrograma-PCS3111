@@ -1,5 +1,8 @@
 #include "Postagem.h"
 
+#include <iostream>
+#include <string>
+
 Postagem::Postagem(string texto, int data, Perfil* autor)
 {
     //ctor
@@ -11,7 +14,7 @@ Postagem::Postagem(string texto, int data, Perfil* autor)
 Postagem::~Postagem()
 {
     //dtor
-    cout << "Destrutor de postagens: " << texto << endl;
+    cout << "Destrutor de postagem: " << texto << endl;
 }
 
 string Postagem::getTexto() {
@@ -29,6 +32,5 @@ Perfil* Postagem::getAutor() {
 void Postagem::imprimir() {
     cout << "Texto: " << this->texto            << " - "
          << "Data: "  << this->data             << " - "
-         << "Autor: " << this->autor->getNome() << " - "
-         << endl;
+         << "Autor: " << this->autor->getNome() << endl;
 }

@@ -1,8 +1,8 @@
 #include "RedeSocial.h"
-#include "Perfil.h"
-#include "PessoaVerificada.h"
-#include "PessoaNaoVerificada.h"
-#include "Pagina.h"
+
+#include <iostream>
+#include <string>
+#include <stdexcept>
 
 RedeSocial::RedeSocial()
 {
@@ -12,7 +12,6 @@ RedeSocial::RedeSocial()
 
 RedeSocial::~RedeSocial() {
   cout << "Destrutor de RedeSocial: " << quantidadeDePerfis << " perfis" << endl;
-  // COMPLETE
   for (int i = 0; i < quantidadeDePerfis; i++) {
     delete perfis[i];
   }
@@ -42,28 +41,28 @@ void RedeSocial::imprimir() {
   cout << "Rede Social: " << quantidadeDePerfis << " perfis" << endl;
   cout << "==================================" << endl;
   if (quantidadeDePerfis == 0){
-    cout << "Sem perfis" << endl;
-    cout << "==================================" << endl;
+        cout << "Sem perfis" << endl;
+        cout << "==================================" << endl;
   } else {
-    for (int i = 0; i < quantidadeDePerfis; i++){
-      perfis[i]->imprimir();
-      cout << "==================================" << endl;
-    }
+      for (int i = 0; i < quantidadeDePerfis; i++) {
+          perfis[i]->imprimir();
+          cout << "==================================" << endl;
+      }
   }
   cout << endl;
 }
 
 void RedeSocial::imprimirEstatisticas() {
     int numPessoaVerificada = 0;
-    int numPessoaNaoVerificada = 0;
+    int numPessoa = 0;
     int numPagina = 0;
     int numPerfil = 0;
     for(int i = 0; i < this->quantidadeDePerfis; i++) {
         if(dynamic_cast<PessoaVerificada*>(this->perfis[i]) != NULL) {
             numPessoaVerificada++;
         }
-        else if(dynamic_cast<PessoaNaoVerificada*>(this->perfis[i]) != NULL) {
-            numPessoaNaoVerificada++;
+        else if(dynamic_cast<Pessoa*>(this->perfis[i]) != NULL) {
+            numPessoa++;
         }
         else if(dynamic_cast<Pagina*>(this->perfis[i]) != NULL) {
             numPagina++;
@@ -71,8 +70,17 @@ void RedeSocial::imprimirEstatisticas() {
         else numPerfil++;
     }
     cout << "PessoaVerificada: " << numPessoaVerificada << endl
-         << "PessoaNaoVerificada: " << numPessoaNaoVerificada << endl
+         << "Pessoa: " << numPessoa << endl
          << "Pagina: " << numPagina << endl
          << "Perfil: " << numPerfil << endl;
     cout << endl;
 }
+
+Perfil* RedeSocial::getPerfil(int id)
+{
+    for (int i = 0; i < this->quantidadeDePerfis; i++) {
+        if (this->perfis[i]->getId() == id) return this->perfis[i];
+    }
+    throw new PerfilInexistente();
+}
+

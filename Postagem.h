@@ -2,28 +2,23 @@
 #define POSTAGEM_H
 
 #include "Perfil.h"
+#include <string>
+using namespace std;
 
 class Perfil;
 
 class Postagem {
-
-private:
-    // Atributos
+protected:
     string texto;
     int data;
     Perfil* autor;
-
 public:
-    // Getters
     string getTexto();
     int getData();
     Perfil* getAutor();
-    // Setters
-    // Construtor
     Postagem(string texto, int data, Perfil* autor);
-    // Destrutor
     virtual ~Postagem();
-    void imprimir();
+    virtual void imprimir();
 };
 
 #endif // POSTAGEM_H

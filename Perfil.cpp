@@ -1,110 +1,107 @@
 #include "Perfil.h"
 
-Perfil::Perfil(string nome)
-{
+#include <iostream>
+#include <string>
+#include <stdexcept>
+#include <list>
+
+using namespace std;
+
+int Perfil::ultimoId = 0;
+
+Perfil::Perfil(string nome) {
     this->nome = nome;
-    contatos = new Perfil*[MAXIMO_CONTATOS];
-    postagens = new Postagem*[MAXIMO_POSTAGENS];
+    contatos = new vector<Perfil*>();
+    postagens = new list<Postagem*>();
+    this->id = ++Perfil::ultimoId;
 }
 
-
-Perfil::~Perfil()
-{
-    cout << "Destrutor de perfil: " << nome << " - Quantidade de postagens feitas: "
+Perfil::~Perfil() {
+    cout << "Destrutor de perfil: " << nome
+         << " - Quantidade de postagens feitas: "
          << quantidadeDePostagens << endl;
-    for (int i = 0; i < quantidadeDePostagens; i++) {
-        delete postagens[i];
-    }
-    delete[] postagens;
-    delete[] contatos;
-    cout << "Perfil deletado" << endl;
-}
 
-int Perfil::getQuantidadeDeContatos() {
-    return this->quantidadeDeContatos;
+    delete contatos;
+
+    while (!postagens->empty()) {
+        Postagem* p = postagens->front();
+        postagens->pop_front(); // Tirando da lista
+        delete p;
+    }
+    delete postagens;
+    cout << "Perfil deletado" << endl;
 }
 
 string Perfil::getNome() {
     return this->nome;
 }
 
-int Perfil::getQuantidadeDePostagens() {
-    return this->quantidadeDePostagens;
-}
-
-Perfil** Perfil::getContatos() {
+vector<Perfil*>* Perfil::getContatos() {
     return this->contatos;
 }
 
-Postagem** Perfil::getPostagens() {
+list<Postagem*>* Perfil::getPostagens() {
     return this->postagens;
 }
 
-bool Perfil::adicionarContato(Perfil* contato) {
-
-    if(this->quantidadeDeContatos == MAXIMO_CONTATOS ||
-       contato->quantidadeDeContatos == MAXIMO_CONTATOS) {
-       return false;
-    }
+void Perfil::adicionar(Perfil* contato) {
+    if (this == contato) throw new invalid_argument("Perfil adicionando ele mesmo");
     for (int i = 0; i < this->quantidadeDeContatos; i++) {
         if(this->contatos[i] == contato) {
-            return false;
+            throw new invalid_argument("Perfil ja adicionado");
         }
     }
-    this->contatos[this->quantidadeDeContatos] = contato;
-    this->quantidadeDeContatos++;
-    contato->contatos[contato->quantidadeDeContatos] = this;
-    contato->quantidadeDeContatos++;
-    return true;
+    this->contatos[this->quantidadeDeContatos++] = contato;
+    contato->contatos[contato->quantidadeDeContatos++] = this;
 }
 
-bool Perfil::adicionarPostagem(Postagem* p) {
-    if (this->quantidadeDePostagens == MAXIMO_POSTAGENS) return false;
-    else {
-        this->postagens[this->quantidadeDePostagens] = p;
-        this->quantidadeDePostagens++;
-        return true;
-    }
-    return false;
+void Perfil::adicionar(Postagem* p) {
+    postagens->push_back(p);
+    quantidadeDePostagens++;
 }
 
-void Perfil::imprimir() {
-    cout << endl << "Nome: " << nome << endl;
-    cout << "Numero de postagens feitas: " << quantidadeDePostagens << endl;
-    for (int i = 0; i < quantidadeDePostagens; i++)
-        cout << "Postagens na data " << postagens[i]->getData() << " - Texto: "
-             << postagens[i]->getTexto() << endl;
-
-    if (quantidadeDeContatos == 0)
-        cout << "Sem contatos " << endl;
-    else {
-        for (int i = 0; i < quantidadeDeContatos; i++) {
-            for (int j = 0; j < contatos[i]->getQuantidadeDePostagens(); j++)
-                cout << "Postagens na data "
-                     << contatos[i]->getPostagens()[j]->getData()
-                     << " do contato " << contatos[i]->getNome()
-                     << " - Texto: " << contatos[i]->getPostagens()[j]->getTexto()
-                     << endl;
-        }
-    }
-}
-
-Postagem** Perfil::getPostagensDosContatos(int data, int& quantidade)
-{
-    Postagem** postagensDosContatos = new Postagem*[MAXIMO_POSTAGENS*(this->quantidadeDeContatos)];
-    quantidade = 0;
+list<Postagem*>* Perfil::getPostagensDosContatos(int data) {
+    list<Postagem*>* postagensDosContatos = new list<Postagem*>();
     int dataRecente;
+
     for (int i = 0; i < this->quantidadeDeContatos; i++) {
-        for (int j = 0; j < this->contatos[i]->getQuantidadeDePostagens(); j++) {
+        list<Postagem*>::iterator j = this->contatos[i]->postagens->begin();
+        while (j != contatos[i]->postagens->end()) {
             dataRecente = data;
             while (dataRecente > 0 && dataRecente >= data-3) {
-                if (this->contatos[i]->postagens[j]->getData() == dataRecente) {
-                    postagensDosContatos[quantidade] = this->contatos[i]->postagens[j];
-                    quantidade++;
+                if ((*j)->getData() == dataRecente) {
+                    postagensDosContatos->push_back((*j));
                 }
                 dataRecente--;
             }
+            j++;
         }
     }
     return postagensDosContatos;
+}
+
+list<Postagem*>* Perfil::getPostagensDosContatos() {
+    list<Postagem*>* postagensDosContatos = new list<Postagem*>();
+    list<Postagem*>::iterator it;
+    list<Postagem*>* L;
+
+    for (int i = 0; i < this->quantidadeDeContatos; i++) {
+        it = postagensDosContatos->begin();
+        L = this->contatos[i]->getPostagens();
+        postagensDosContatos->insert(it, L->begin(), L->end());
+    }
+
+    return postagensDosContatos;
+}
+
+int Perfil::getId() {
+    return this->id;
+}
+
+int Perfil::getUltimoId() {
+    return Perfil::ultimoId;
+}
+
+void Perfil::setUltimoId(int ultimoId) {
+    Perfil::ultimoId = ultimoId;
 }

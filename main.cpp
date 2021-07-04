@@ -1,18 +1,26 @@
-#include "Perfil.h"
-#include "PessoaNaoVerificada.h"
-#include "PessoaVerificada.h"
 #include "Pagina.h"
+#include "Perfil.h"
+#include "PerfilInexistente.h"
+#include "PersistenciaDaRede.h"
+#include "Pessoa.h"
+#include "PessoaVerificada.h"
 #include "Postagem.h"
 #include "RedeSocial.h"
+#include "Story.h"
 
 #include <iostream>
+#include <string>
+#include <sstream>
+#include <stdexcept>
+#include <list>
+#include <vector>
 
 using namespace std;
 
 void listarPerfis(RedeSocial* R) {
     for(int i = 0; i < R->getQuantidadeDePerfis(); i++) {
         cout << i+1 << ") " << R->getPerfis()[i]->getNome();
-        if ( EhVerificado( R->getPerfis()[i] ) ) {
+        if (dynamic_cast<PessoaVerificada*>(R->getPerfis()[i]) != NULL) {
             cout << " (Verificada)";
         }
         cout << endl;
@@ -263,8 +271,70 @@ void interface() {
     }
 }
 
-int main() {
-    interface();
-    return 0;
+/*
+void teste() {
+
+    RedeSocial* PoliBook = new RedeSocial();
+    Perfil* p1 = new PessoaVerificada("Levy", "levy@usp.br");
+    Perfil* p2 = new Pagina("PCS3111REOF", dynamic_cast<PessoaVerificada*>(p1));
+    Perfil* p3 = new PessoaNaoVerificada("Reinaldo");
+    PoliBook->adicionar(p1);
+    PoliBook->adicionar(p2);
+    PoliBook->adicionar(p3);
+    p2->adicionarContato(p3);
+    p1->adicionarContato(p3);
+
+    string texto1 = "", texto2 = "";
+    cout << "Texto1: ";
+    cin >> texto1;
+    cout << "Texto2: ";
+    cin >> texto2;
+    p3->adicionarPostagem(new Postagem(texto1, 1, p3));
+    p1->adicionarPostagem(new Postagem(texto2, 2, p1));
+
+    cout << "Postagens dos ultimos dias: " << endl;
+    int quantidade;
+    Postagem ** postagens = p2->getPostagensDosContatos(2, quantidade);
+    for (int i = 0; i < quantidade; i++) {
+        postagens[i]->imprimir();
+    }
+    delete PoliBook;
+}
+*/
+
+void teste()
+{
+
+    RedeSocial* FB = new RedeSocial;
+    Perfil* p1 = new Perfil("perfil 1");
+    cout << "teste" << endl;
+
+    Perfil* p2 = new Perfil("perfil 2");
+    cout << "teste" << endl;
+
+    Perfil* p3 = new Perfil ("perfil 3");
+    cout << "teste" << endl;
+
+    FB -> adicionar(p1);
+    cout << "teste" << endl;
+    FB -> adicionar(p2);
+    cout << "ultimo teste" << endl;
+    FB->adicionar(p3);
+
+    p1->adicionarContato(p2);
+    p3->adicionarContato(p1);
+    p3->adicionarContato(p2);
+
+    int quantidadeteste;
+
+    Postagem** vetor = p3 -> getPostagensDosContatos(6,quantidadeteste);
+
+    cout << "teste" << endl;
 }
 
+
+int main() {
+    teste();
+    //interface();
+    return 0;
+}

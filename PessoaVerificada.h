@@ -1,18 +1,15 @@
 #ifndef PESSOAVERIFICADA_H
 #define PESSOAVERIFICADA_H
 
-#include "Perfil.h"
+#include "Pessoa.h"
 
-class PessoaVerificada: public Perfil {
+class PessoaVerificada: public Pessoa {
     public:
         PessoaVerificada(string nome, string email);
         PessoaVerificada(string nome);
         virtual ~PessoaVerificada();
         string getEmail();
         void imprimir();
-
-    protected:
-
     private:
         string email;
 };
