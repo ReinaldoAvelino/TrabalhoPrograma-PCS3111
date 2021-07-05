@@ -4,10 +4,10 @@
 #include <string>
 #include <stdexcept>
 
-RedeSocial::RedeSocial()
-{
-    //ctor
-    perfis = new Perfil*[capacidade];
+using namespace std;
+
+RedeSocial::RedeSocial() {
+    perfis = new vector<Perfil*>();
 }
 
 RedeSocial::~RedeSocial() {
