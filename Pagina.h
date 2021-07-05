@@ -8,10 +8,10 @@
 
 class Pagina: public Perfil {
     public:
-        Pagina(string nome, PessoaVerificada* proprietario);
-        Pagina(string nome, PessoaVerificada* proprietario, int id); // Persistencia
+        Pagina(std::string nome, PessoaVerificada* proprietario);
+        Pagina(std::string nome, PessoaVerificada* proprietario, int id); // Persistencia
         virtual ~Pagina();
-    
+
         PessoaVerificada* getProprietario();
         void imprimir();
 

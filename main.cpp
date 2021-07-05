@@ -17,10 +17,10 @@
 
 using namespace std;
 
-void listarPerfis(RedeSocial* R) {
-    for(int i = 0; i < R->getQuantidadeDePerfis(); i++) {
-        cout << i+1 << ") " << R->getPerfis()[i]->getNome();
-        if (dynamic_cast<PessoaVerificada*>(R->getPerfis()[i]) != NULL) {
+void listarPerfis(RedeSocial* rede) {
+    for (int i = 0; i < rede->getPerfis()->size(); i++) {
+        cout << i+1 << ") " << rede->getPerfis()->at(i)->getNome();
+        if (dynamic_cast<PessoaVerificada*>(rede->getPerfis()->at(i)) != NULL) {
             cout << " (Verificada)";
         }
         cout << endl;

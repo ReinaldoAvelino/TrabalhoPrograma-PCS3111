@@ -9,14 +9,14 @@ class RedeSocial;
 
 class PersistenciaDaRede {
 public:
-    PersistenciaDaRede(string arquivo);
+    PersistenciaDaRede(std::string arquivo);
     virtual ~PersistenciaDaRede();
 
     void salvar(RedeSocial* r);
     RedeSocial* carregar();
 
 protected:
-    string arquivo;
+    std::string arquivo;
 };
 
 #endif // PERSISTENCIADAREDE_H

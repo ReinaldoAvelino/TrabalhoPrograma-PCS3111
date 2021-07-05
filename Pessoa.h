@@ -3,10 +3,12 @@
 
 #include "Perfil.h"
 
+#include <string>
+
 class Pessoa: public Perfil {
 public:
-    Pessoa(string nome);
-    Pessoa(string nome, int id); // Persistencia
+    Pessoa(std::string nome);
+    Pessoa(std::string nome, int id); // Persistencia
     virtual ~Pessoa();
     void imprimir();
 };

@@ -1,6 +1,8 @@
 #include "Story.h"
+
 #include <iostream>
 #include <string>
+
 using namespace std;
 
 Story::Story(string texto, int data, int dataDeFim, Perfil* autor): Postagem(texto, data, autor)

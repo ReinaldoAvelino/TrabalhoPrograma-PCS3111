@@ -2,11 +2,8 @@
 #define PERFILINEXISTENTE_H
 
 #include <stdexcept>
-#include <string>
 
-using namespace std;
-
-class PerfilInexistente: public logic_error {
+class PerfilInexistente: public std::logic_error {
 public:
     PerfilInexistente();
     virtual ~PerfilInexistente();

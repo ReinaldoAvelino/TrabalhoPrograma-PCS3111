@@ -7,25 +7,23 @@
 #include <list>
 #include <vector>
 
-using namespace std;
-
 class Postagem;
 
 class Perfil { // Classe abstrata
 public:
-    Perfil(string nome);
-    Perfil(string nome, int id); // Persistencia
+    Perfil(std::string nome);
+    Perfil(std::string nome, int id); // Persistencia
 	virtual ~Perfil();
 
-	string getNome();
+	std::string getNome();
 
     virtual void adicionar(Perfil* contato);
 	virtual void adicionar(Postagem* p);
 
-	virtual list<Postagem*>* getPostagens();
-    virtual list<Postagem*>* getPostagensDosContatos(int data);
-    virtual list<Postagem*>* getPostagensDosContatos();
-    virtual vector<Perfil*>* getContatos();
+	virtual std::list<Postagem*>* getPostagens();
+    virtual std::list<Postagem*>* getPostagensDosContatos(int data);
+    virtual std::list<Postagem*>* getPostagensDosContatos();
+    virtual std::vector<Perfil*>* getContatos();
 
     virtual void imprimir() = 0; // Metodo abstrato
 
@@ -34,10 +32,10 @@ public:
     static void setUltimoId(int ultimoId); // Persistencia
 
 protected:
-	string nome;
-	vector<Perfil*>* contatos;
+	std::string nome;
+	std::vector<Perfil*>* contatos;
 	int quantidadeDeContatos = 0;
-	list<Postagem*>* postagens;
+	std::list<Postagem*>* postagens;
 	int quantidadeDePostagens = 0;
 	int id = 0;
 	static int ultimoId;

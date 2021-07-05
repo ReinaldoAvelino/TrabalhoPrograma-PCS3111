@@ -3,15 +3,18 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 Pagina::Pagina(string nome, PessoaVerificada* proprietario):
-Perfil(nome), proprietario (proprietario) {
-    this->adicionarContato(proprietario);
+Perfil(nome) {
+    this->proprietario = proprietario;
+    this->adicionar(proprietario);
 }
 
 Pagina::Pagina(string nome, PessoaVerificada* proprietario, int id):
 Perfil(nome) {
     this->id = id;
-    this->adicionarContato(proprietario);
+    this->adicionar(proprietario);
 }
 
 Pagina::~Pagina() {

@@ -5,22 +5,20 @@
 
 #include <string>
 
-using namespace std;
-
 class Perfil;
 
 class Postagem {
 public:
-    Postagem(string texto, int data, Perfil* autor);
+    Postagem(std::string texto, int data, Perfil* autor);
     virtual ~Postagem();
-    
-    string getTexto();
+
+    std::string getTexto();
     int getData();
     Perfil* getAutor();
-    
+
     virtual void imprimir();
 protected:
-    string texto;
+    std::string texto;
     int data;
     Perfil* autor;
 };

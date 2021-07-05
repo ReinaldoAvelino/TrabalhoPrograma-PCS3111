@@ -63,18 +63,17 @@ void Perfil::adicionar(Postagem* p) {
 list<Postagem*>* Perfil::getPostagensDosContatos(int data) {
     list<Postagem*>* postagensDosContatos = new list<Postagem*>();
     int dataRecente;
+    list<Postagem*>::iterator it;
 
     for (int i = 0; i < this->quantidadeDeContatos; i++) {
-        list<Postagem*>::iterator j = this->contatos[i]->postagens->begin();
-        while (j != contatos[i]->postagens->end()) {
+        for (it = contatos[i]->postagens->begin(); it != contatos[i]->postagens->end(); it++) {
             dataRecente = data;
             while (dataRecente > 0 && dataRecente >= data-3) {
-                if ((*j)->getData() == dataRecente) {
-                    postagensDosContatos->push_back((*j));
+                if ((*it)->getData() == dataRecente) {
+                    postagensDosContatos->push_back((*it));
                 }
                 dataRecente--;
             }
-            j++;
         }
     }
     return postagensDosContatos;

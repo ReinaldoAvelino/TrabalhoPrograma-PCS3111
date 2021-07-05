@@ -6,16 +6,16 @@
 #include <string>
 
 class PessoaVerificada: public Pessoa {
-    public:
-        PessoaVerificada(string nome, string email);
-        PessoaVerificada(string nome);
-        PessoaVerificada(string nome, string email, int id); // Persistencia
-        virtual ~PessoaVerificada();
-    
-        string getEmail();
-        void imprimir();
-    private:
-        string email;
+public:
+    PessoaVerificada(std::string nome, std::string email);
+    PessoaVerificada(std::string nome);
+    PessoaVerificada(std::string nome, std::string email, int id); // Persistencia
+    virtual ~PessoaVerificada();
+
+    std::string getEmail();
+    void imprimir();
+private:
+    std::string email;
 };
 
 #endif // PESSOAVERIFICADA_H

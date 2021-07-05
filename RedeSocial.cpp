@@ -1,8 +1,9 @@
 #include "RedeSocial.h"
 
 #include <iostream>
-#include <string>
 #include <stdexcept>
+#include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -11,41 +12,37 @@ RedeSocial::RedeSocial() {
 }
 
 RedeSocial::~RedeSocial() {
-  cout << "Destrutor de RedeSocial: " << quantidadeDePerfis << " perfis" << endl;
-  for (int i = 0; i < quantidadeDePerfis; i++) {
-    delete perfis[i];
+  cout << "Destrutor de RedeSocial: " << perfis->size() << " perfis" << endl;
+  for (int i = 0; i < perfis->size(); i++) {
+    delete perfis->at(i);
   }
-  delete[] perfis;
+  delete perfis;
   cout << "RedeSocial deletada " << endl;
 }
 
-Perfil** RedeSocial::getPerfis() {
+vector<Perfil*>* RedeSocial::getPerfis() {
     return this->perfis;
 }
 
-bool RedeSocial::adicionar(Perfil* perfil) {
-    if (this->quantidadeDePerfis < capacidade) {
-        this->perfis[this->quantidadeDePerfis] = perfil;
-        this->quantidadeDePerfis++;
-        return true;
-    }
-    return false;
-}
-
-int RedeSocial::getQuantidadeDePerfis() {
-    return this->quantidadeDePerfis;
+void RedeSocial::adicionar(Perfil* perfil) {
+    vector<Perfil*>::iterator it;
+    it = find(perfis->begin(), perfis->end(), perfil);
+    if (it != perfis->end())
+        throw new invalid_argument("Perfil ja existe.");
+    else
+        perfis->push_back(perfil);
 }
 
 void RedeSocial::imprimir() {
   cout << "==================================" << endl;
-  cout << "Rede Social: " << quantidadeDePerfis << " perfis" << endl;
+  cout << "Rede Social: " << perfis->size() << " perfis" << endl;
   cout << "==================================" << endl;
-  if (quantidadeDePerfis == 0){
+  if (perfis->size() == 0){
         cout << "Sem perfis" << endl;
         cout << "==================================" << endl;
   } else {
-      for (int i = 0; i < quantidadeDePerfis; i++) {
-          perfis[i]->imprimir();
+      for (int i = 0; i < perfis->size(); i++) {
+          perfis->at(i)->imprimir();
           cout << "==================================" << endl;
       }
   }
@@ -57,14 +54,14 @@ void RedeSocial::imprimirEstatisticas() {
     int numPessoa = 0;
     int numPagina = 0;
     int numPerfil = 0;
-    for(int i = 0; i < this->quantidadeDePerfis; i++) {
-        if(dynamic_cast<PessoaVerificada*>(this->perfis[i]) != NULL) {
+    for(int i = 0; i < perfis->size(); i++) {
+        if(dynamic_cast<PessoaVerificada*>(perfis->at(i)) != NULL) {
             numPessoaVerificada++;
         }
-        else if(dynamic_cast<Pessoa*>(this->perfis[i]) != NULL) {
+        else if(dynamic_cast<Pessoa*>(perfis->at(i)) != NULL) {
             numPessoa++;
         }
-        else if(dynamic_cast<Pagina*>(this->perfis[i]) != NULL) {
+        else if(dynamic_cast<Pagina*>(perfis->at(i)) != NULL) {
             numPagina++;
         }
         else numPerfil++;
@@ -78,8 +75,8 @@ void RedeSocial::imprimirEstatisticas() {
 
 Perfil* RedeSocial::getPerfil(int id)
 {
-    for (int i = 0; i < this->quantidadeDePerfis; i++) {
-        if (this->perfis[i]->getId() == id) return this->perfis[i];
+    for (int i = 0; i < perfis->size(); i++) {
+        if (perfis->at(i)->getId() == id) return perfis->at(i);
     }
     throw new PerfilInexistente();
 }

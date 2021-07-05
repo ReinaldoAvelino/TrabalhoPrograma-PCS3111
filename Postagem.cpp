@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 Postagem::Postagem(string texto, int data, Perfil* autor) {
     this->texto = texto;
     this->data = data;

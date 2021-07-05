@@ -14,25 +14,22 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 class Perfil;
 
 class RedeSocial {
 public:
     RedeSocial ();
     virtual ~RedeSocial();
-    
-    vector<Perfil*>* getPerfis();
+
+    std::vector<Perfil*>* getPerfis();
     Perfil* getPerfil(int id);
     void adicionar(Perfil* perfil);
-    
+
     void imprimir();
     void imprimirEstatisticas();
 
 private:
-    vector<Perfil*>* perfis;
-    int quantidadeDePerfis = 0;
+    std::vector<Perfil*>* perfis;
 };
 
 #endif // REDESOCIAL_H
