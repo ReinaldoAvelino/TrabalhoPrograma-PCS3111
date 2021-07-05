@@ -9,7 +9,7 @@ class PessoaVerificada: public Pessoa {
     public:
         PessoaVerificada(string nome, string email);
         PessoaVerificada(string nome);
-        PessoaVerificada(string nome, string email, int id);
+        PessoaVerificada(string nome, string email, int id); // Persistencia
         virtual ~PessoaVerificada();
     
         string getEmail();
