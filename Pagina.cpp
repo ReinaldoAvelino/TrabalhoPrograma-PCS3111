@@ -8,13 +8,16 @@ Perfil(nome), proprietario (proprietario) {
     this->adicionarContato(proprietario);
 }
 
-Pagina::~Pagina()
-{
-    //dtor
+Pagina::Pagina(string nome, PessoaVerificada* proprietario, int id):
+Perfil(nome) {
+    this->id = id;
+    this->adicionarContato(proprietario);
 }
 
-PessoaVerificada* Pagina::getProprietario()
-{
+Pagina::~Pagina() {
+}
+
+PessoaVerificada* Pagina::getProprietario() {
     return this->proprietario;
 }
 
