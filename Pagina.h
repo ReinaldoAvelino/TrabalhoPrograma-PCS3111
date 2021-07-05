@@ -4,10 +4,14 @@
 #include "Perfil.h"
 #include "PessoaVerificada.h"
 
+#include <string>
+
 class Pagina: public Perfil {
     public:
         Pagina(string nome, PessoaVerificada* proprietario);
+        Pagina(string nome, PessoaVerificada* proprietario, int id); // Persistencia
         virtual ~Pagina();
+    
         PessoaVerificada* getProprietario();
         void imprimir();
 
