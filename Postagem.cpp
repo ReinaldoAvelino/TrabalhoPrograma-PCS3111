@@ -3,17 +3,13 @@
 #include <iostream>
 #include <string>
 
-Postagem::Postagem(string texto, int data, Perfil* autor)
-{
-    //ctor
+Postagem::Postagem(string texto, int data, Perfil* autor) {
     this->texto = texto;
     this->data = data;
     this->autor = autor;
 }
 
-Postagem::~Postagem()
-{
-    //dtor
+Postagem::~Postagem() {
     cout << "Destrutor de postagem: " << texto << endl;
 }
 
