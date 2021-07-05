@@ -2,10 +2,10 @@
 
 #include <iostream>
 #include <string>
+
 using namespace std;
 
-PessoaVerificada::PessoaVerificada(string nome, string email) : Pessoa(nome)
-{
+PessoaVerificada::PessoaVerificada(string nome, string email) : Pessoa(nome) {
     this->email = email;
 }
 
@@ -13,13 +13,14 @@ PessoaVerificada::PessoaVerificada(string nome): Pessoa(nome) {
     this->email = "email.padrao@usp.br";
 }
 
-PessoaVerificada::~PessoaVerificada()
-{
-    //dtor
+PessoaVerificada::PessoaVerificada(string nome, string email, int id): Pessoa(nome, id) {
+    this->email = email;
 }
 
-string PessoaVerificada::getEmail()
-{
+PessoaVerificada::~PessoaVerificada() {
+}
+
+string PessoaVerificada::getEmail() {
     return this->email;
 }
 
