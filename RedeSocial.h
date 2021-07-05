@@ -10,22 +10,28 @@
 #include "PerfilInexistente.h"
 #include "PersistenciaDaRede.h"
 
+#include <iostream>
+#include <string>
+#include <vector>
+
+using namespace std;
+
 class Perfil;
 
 class RedeSocial {
 public:
     RedeSocial ();
     virtual ~RedeSocial();
-    virtual Perfil** getPerfis();
-    virtual int getQuantidadeDePerfis();
-    virtual bool adicionar(Perfil* perfil);
-    virtual void imprimir();
-    virtual void imprimirEstatisticas();
+    
+    vector<Perfil*>* getPerfis();
     Perfil* getPerfil(int id);
+    void adicionar(Perfil* perfil);
+    
+    void imprimir();
+    void imprimirEstatisticas();
 
 private:
-    Perfil** perfis;
-    const int capacidade = 100;
+    vector<Perfil*>* perfis;
     int quantidadeDePerfis = 0;
 };
 
