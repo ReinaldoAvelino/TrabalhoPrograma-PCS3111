@@ -12,8 +12,8 @@ Perfil(nome) {
 }
 
 Pagina::Pagina(string nome, PessoaVerificada* proprietario, int id):
-Perfil(nome) {
-    this->id = id;
+Perfil(nome, id) {
+    this->proprietario = proprietario;
     this->adicionar(proprietario);
 }
 

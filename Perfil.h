@@ -34,9 +34,7 @@ public:
 protected:
 	std::string nome;
 	std::vector<Perfil*>* contatos;
-	int quantidadeDeContatos = 0;
 	std::list<Postagem*>* postagens;
-	int quantidadeDePostagens = 0;
 	int id = 0;
 	static int ultimoId;
 };

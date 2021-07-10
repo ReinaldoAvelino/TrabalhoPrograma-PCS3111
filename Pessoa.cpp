@@ -18,7 +18,7 @@ void Pessoa::imprimir() {
     cout << endl << "Nome: " << nome
          << " - id: " << Perfil::getId() << endl;
     cout << "Numero de postagens feitas: "
-         << quantidadeDePostagens << endl;
+         << postagens->size() << endl;
 
     list<Postagem*>::iterator i = postagens->begin();
     while (i != postagens->end()) {
@@ -27,17 +27,17 @@ void Pessoa::imprimir() {
         i++;
     }
 
-    if (quantidadeDeContatos == 0)
+    if (contatos->size() == 0)
         cout << "Sem contatos " << endl;
     else {
-        for (int i = 0; i < quantidadeDeContatos; i++) {
+        for (int i = 0; i < contatos->size(); i++) {
             list<Postagem*>::iterator j =
-            contatos[i]->getPostagens()->begin();
-            while (j != contatos[i]->getPostagens()->end()) {
+            contatos->at(i)->getPostagens()->begin();
+            while (j != contatos->at(i)->getPostagens()->end()) {
                 cout << "Postagens na data "
                      << (*j)->getData()
                      << " do contato "
-                     << contatos[i]->getNome()
+                     << contatos->at(i)->getNome()
                      << " - Texto: " << (*j)->getTexto()
                      << endl;
                 j++;

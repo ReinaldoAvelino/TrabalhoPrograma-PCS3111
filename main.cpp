@@ -19,7 +19,8 @@ using namespace std;
 
 void listarPerfis(RedeSocial* rede) {
     for (int i = 0; i < rede->getPerfis()->size(); i++) {
-        cout << i+1 << ") " << rede->getPerfis()->at(i)->getNome();
+        cout << rede->getPerfis()->at(i)->getId() << ") "
+             << rede->getPerfis()->at(i)->getNome();
         if (dynamic_cast<PessoaVerificada*>(rede->getPerfis()->at(i)) != NULL) {
             cout << " (Verificada)";
         }
@@ -29,7 +30,13 @@ void listarPerfis(RedeSocial* rede) {
 
 void interface() {
 
-    RedeSocial* PoliBook = new RedeSocial();
+    string arquivo;
+    cout << "Arquivo: ";
+    getline(cin, arquivo);
+
+    PersistenciaDaRede* persistencia = new PersistenciaDaRede(arquivo);
+
+    RedeSocial* rede = persistencia->carregar();
 
     string opcao_string = "";
     int opcao = -1;
@@ -68,12 +75,12 @@ void interface() {
                         cout << "Email: ";
                         getline(cin, email);
 
-                        PoliBook->adicionar(new PessoaVerificada(nome, email));
+                        rede->adicionar(new PessoaVerificada(nome, email));
 
                     }
 
                     else if(verificada == "n") {
-                        PoliBook->adicionar(new PessoaNaoVerificada(nome));
+                        rede->adicionar(new Pessoa(nome));
                     }
                 }
                 cout << endl;
@@ -87,23 +94,24 @@ void interface() {
                 cout << "Nome: ";
                 getline(cin, nome);
                 cout << "Proprietario:" << endl;
-                listarPerfis(PoliBook);
+                listarPerfis(rede);
 
-                string numero_string = "";
-                int numero = -1;
+                string id_string = "";
+                int id = -1;
 
                 while (true) {
-                    cout << "Digite o numero ou 0 para cancelar: ";
-                    getline(cin, numero_string);
+                    cout << "Digite o id ou 0 para cancelar: ";
+                    getline(cin, id_string);
 
                     // Convert from string to number safely
-                    stringstream myStream(numero_string);
-                    if (myStream >> numero) break;
+                    stringstream myStream(id_string);
+                    if (myStream >> id) break;
                 }
 
-                if (numero != 0) {
-                    if ( PessoaVerificada* pv = dynamic_cast<PessoaVerificada*>(PoliBook->getPerfis()[numero-1]) ) {
-                        PoliBook->adicionar( new Pagina(nome, pv) );
+                if (id != 0) {
+                    if ( PessoaVerificada* pv =
+                    dynamic_cast<PessoaVerificada*>(rede->getPerfil(id)) ) {
+                        rede->adicionar( new Pagina(nome, pv) );
                     }
                     else {
                         cout << "Somente pessoas verificadas podem ser proprietarias" << endl;
@@ -116,30 +124,30 @@ void interface() {
             case 3:
             {
                 cout << "Escolha um perfil:" << endl;
-                listarPerfis(PoliBook);
+                listarPerfis(rede);
 
-                string numero_string = "";
-                int numero = -1;
+                string id_string = "";
+                int id = -1;
                 while (true) {
-                    cout << "Digite o numero ou 0 para cancelar: ";
-                    getline(cin, numero_string);
+                    cout << "Digite o id ou 0 para cancelar: ";
+                    getline(cin, id_string);
 
                     // Convert from string to number safely
-                    stringstream myStream(numero_string);
-                    if (myStream >> numero) break;
+                    stringstream myStream(id_string);
+                    if (myStream >> id) break;
                 }
 
-                if (numero != 0) {
-                    Perfil* p = PoliBook->getPerfis()[numero-1];
-                    cout << p->getNome();
-                    if ( PessoaVerificada* pv = dynamic_cast<PessoaVerificada*>(p) ) {
+                if (id != 0) {
+                    cout << rede->getPerfil(id)->getNome();
+                    if ( PessoaVerificada* pv =
+                    dynamic_cast<PessoaVerificada*>(rede->getPerfil(id)) ) {
                         cout << " - " << pv->getEmail();
                     }
                     cout << endl;
-                    if ( Pagina* pag = dynamic_cast<Pagina*>(p) ) {
+                    if ( Pagina* pag = dynamic_cast<Pagina*>(rede->getPerfil(id)) ) {
                         cout << "Proprietario " << pag->getProprietario()->getNome() << endl;
                     }
-                    cout << "Contatos: " << p->getQuantidadeDeContatos() << endl;
+                    cout << "Contatos: " << rede->getPerfil(id)->getContatos()->size() << endl;
                     cout << "---" << endl;
 
                     int acao = -1;
@@ -195,10 +203,12 @@ void interface() {
                                 cout << "Texto: ";
                                 getline(cin, texto);
                                 if (resposta == "s") {
-                                    p->adicionarPostagem(new Story(texto, data, dataDeFim, p));
+                                    rede->getPerfil(id)->adicionar(
+                                    new Story(texto, data, dataDeFim, rede->getPerfil(id)));
                                 }
                                 else {
-                                    p->adicionarPostagem(new Postagem(texto, data, p));
+                                    rede->getPerfil(id)->adicionar(
+                                    new Postagem(texto, data, rede->getPerfil(id)));
                                 }
                                 cout << endl;
                             }
@@ -207,7 +217,6 @@ void interface() {
                             case 2:
                             {
                                 int data = -1;
-                                int quantidade;
                                 string data_string = "";
                                 while (true) {
                                     cout << "Data: ";
@@ -219,9 +228,10 @@ void interface() {
                                 }
 
                                 cout << "Postagens dos ultimos 3 dias:" << endl;
-                                Postagem** postagensDosContatos = p->getPostagensDosContatos(data, quantidade);
-                                for (int i = 0; i < quantidade; i++) {
-                                    postagensDosContatos[i]->imprimir();
+                                list<Postagem*>* postagensDosContatos = rede->getPerfil(id)->getPostagensDosContatos(data);
+                                list<Postagem*>::iterator it;
+                                for (it = postagensDosContatos->begin(); it != postagensDosContatos->end(); it++) {
+                                    (*it)->imprimir();
                                 }
                                 cout << endl;
                             }
@@ -230,28 +240,28 @@ void interface() {
                             case 3:
                             {
                                 cout << "Perfil:" << endl;
-                                listarPerfis(PoliBook);
+                                listarPerfis(rede);
 
-                                int escolha = -1;
-                                string escolha_string = "";
+                                int idContato = -1;
+                                string idContato_string = "";
                                 while (true) {
-                                    cout << "Digite o numero ou 0 para cancelar: ";
-                                    getline(cin, escolha_string);
+                                    cout << "Digite o id ou 0 para cancelar: ";
+                                    getline(cin, idContato_string);
 
                                     // Convert from string to number safely
-                                    stringstream myStream(escolha_string);
-                                    if (myStream >> escolha) break;
+                                    stringstream myStream(idContato_string);
+                                    if (myStream >> idContato) break;
                                 }
 
-                                if (escolha != 0) {
-                                    if( p->adicionarContato(PoliBook->getPerfis()[escolha-1]) ) {
-                                        cout << "Adicionado com sucesso" << endl;
+                                if (idContato != 0) {
+                                    try {
+                                        rede->getPerfil(id)->adicionar(rede->getPerfil(idContato));
+                                    } catch (logic_error *e) {
+                                        cout << "Erro: " << e->what() << endl;
+                                        delete e;
                                     }
-                                    else {
-                                        cout << "Contato nao adicionado" << endl;
-                                    }
+
                                 }
-                                else cout << "Contato nao adicionado" << endl;
                                 cout << endl;
                             }
                             break;
@@ -264,77 +274,21 @@ void interface() {
 
             case 0:
             {
-                delete PoliBook;
+                string resposta;
+                cout << "Deseja salvar? (s/n) ";
+                getline(cin, resposta);
+                if (resposta == "s") {
+                    persistencia->salvar(rede);
+                }
+                delete persistencia;
+                delete rede;
             }
             break;
         }
     }
 }
 
-/*
-void teste() {
-
-    RedeSocial* PoliBook = new RedeSocial();
-    Perfil* p1 = new PessoaVerificada("Levy", "levy@usp.br");
-    Perfil* p2 = new Pagina("PCS3111REOF", dynamic_cast<PessoaVerificada*>(p1));
-    Perfil* p3 = new PessoaNaoVerificada("Reinaldo");
-    PoliBook->adicionar(p1);
-    PoliBook->adicionar(p2);
-    PoliBook->adicionar(p3);
-    p2->adicionarContato(p3);
-    p1->adicionarContato(p3);
-
-    string texto1 = "", texto2 = "";
-    cout << "Texto1: ";
-    cin >> texto1;
-    cout << "Texto2: ";
-    cin >> texto2;
-    p3->adicionarPostagem(new Postagem(texto1, 1, p3));
-    p1->adicionarPostagem(new Postagem(texto2, 2, p1));
-
-    cout << "Postagens dos ultimos dias: " << endl;
-    int quantidade;
-    Postagem ** postagens = p2->getPostagensDosContatos(2, quantidade);
-    for (int i = 0; i < quantidade; i++) {
-        postagens[i]->imprimir();
-    }
-    delete PoliBook;
-}
-*/
-
-void teste()
-{
-
-    RedeSocial* FB = new RedeSocial;
-    Perfil* p1 = new Perfil("perfil 1");
-    cout << "teste" << endl;
-
-    Perfil* p2 = new Perfil("perfil 2");
-    cout << "teste" << endl;
-
-    Perfil* p3 = new Perfil ("perfil 3");
-    cout << "teste" << endl;
-
-    FB -> adicionar(p1);
-    cout << "teste" << endl;
-    FB -> adicionar(p2);
-    cout << "ultimo teste" << endl;
-    FB->adicionar(p3);
-
-    p1->adicionarContato(p2);
-    p3->adicionarContato(p1);
-    p3->adicionarContato(p2);
-
-    int quantidadeteste;
-
-    Postagem** vetor = p3 -> getPostagensDosContatos(6,quantidadeteste);
-
-    cout << "teste" << endl;
-}
-
-
 int main() {
-    teste();
-    //interface();
+    interface();
     return 0;
 }
